@@ -1,27 +1,6 @@
 const url = 'https://pokeapi.co/api/v2/pokemon'
 
-// meter la funcion de escucha del boton
-
-async function pokemons() {
-    try {
-        const inicioPokemon = new Date().getTime()
-        for (let i = 1; i <= 12; i++) {
-            let res = await fetch(url + '/' + i)
-            res = await res.json()
-            await insertaCards(res)
-        }
-        const finalPokemon = new Date().getTime()
-        const duracionPokemon = finalPokemon - inicioPokemon
-        console.log('duracionPokemon', duracionPokemon);
-        document.querySelector('#tiempo1').innerHTML = `TIEMPO: ${duracionPokemon} milisegundos`
-    } catch (error) {
-        console.error(error)
-    }
-}
-pokemons()
-
 // Exercici 2.0
-// Exercici 2.1 Async/await
 async function insertaCards(json){
     document.querySelector('#cards').innerHTML += `
         <div class="col-md-2">
@@ -36,8 +15,29 @@ async function insertaCards(json){
                 </div>
             </div>
         </div>
-    `
+        `
 }
+
+// Exercici 2.1 Async/await
+document.querySelector('#btn1').addEventListener('click', async (e) => {
+    e.preventDefault()
+    try {
+        const inicioPokemon = new Date().getTime()
+        
+        for (let i = 1; i <= 12; i++) {
+            let res = await fetch(url + '/' + i)
+            res = await res.json()
+            await insertaCards(res)
+        }
+
+        const finalPokemon = new Date().getTime()
+        const duracionPokemon = finalPokemon - inicioPokemon
+
+        document.querySelector('#tiempo1').innerHTML = `TIEMPO: ${duracionPokemon} milisegundos`
+    } catch (error) {
+        console.error(error)
+    }
+})
 
 // Exercici 2.2 .then/.catch/.finally
 
