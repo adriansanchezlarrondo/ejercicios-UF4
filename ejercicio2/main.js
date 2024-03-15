@@ -23,11 +23,11 @@ document.querySelector('#btn1').addEventListener('click', async (e) => {
     e.preventDefault()
     try {
         const inicioPokemon = new Date().getTime()
-        
+
         for (let i = 1; i <= 12; i++) {
-            let res = await fetch(url + '/' + i)
-            res = await res.json()
-            await insertaCards(res)
+            let response = await fetch(url + '/' + i)
+            data = await response.json()
+            await insertaCards(data)
         }
 
         const finalPokemon = new Date().getTime()
@@ -40,5 +40,28 @@ document.querySelector('#btn1').addEventListener('click', async (e) => {
 })
 
 // Exercici 2.2 .then/.catch/.finally
+document.querySelector('#btn2').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    const inicioPokemon = new Date().getTime()
+    
+    for (let i = 1; i <= 12; i++) {
+
+        fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+        .then(res => res.json())
+        .then(resJSON => {
+            console.log('resJSON', resJSON.name)
+            insertaCards(resJSON)
+        })
+        .catch(err => console.log(err))
+        .finally(console.log('Petición resuelta'))
+
+    }
+
+    const finalPokemon = new Date().getTime()
+    const duracionPokemon = finalPokemon - inicioPokemon
+
+    document.querySelector('#tiempo2').innerHTML = `TIEMPO: ${duracionPokemon} milisegundos`
+})
 
 // Exercici 2.3 Promise.All
