@@ -46,10 +46,11 @@ document.querySelector('#btn2').addEventListener('click', (e) => {
     e.preventDefault()
     document.querySelector('#cards').innerHTML = ''
     
+    const inicioPokemon = new Date().getTime()
+    
     fetch(`https://pokeapi.co/api/v2/pokemon/1`)
     .then(res => res.json())
     .then(resJSON => {
-        const inicioPokemon = new Date().getTime()
 
         insertaCards(resJSON)
 
