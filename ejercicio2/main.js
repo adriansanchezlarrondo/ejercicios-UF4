@@ -21,6 +21,8 @@ async function insertaCards(json){
 // Exercici 2.1 Async/await
 document.querySelector('#btn1').addEventListener('click', async (e) => {
     e.preventDefault()
+    document.querySelector('#cards').innerHTML = ''
+
     try {
         const inicioPokemon = new Date().getTime()
 
@@ -42,6 +44,7 @@ document.querySelector('#btn1').addEventListener('click', async (e) => {
 // Exercici 2.2 .then/.catch/.finally
 document.querySelector('#btn2').addEventListener('click', (e) => {
     e.preventDefault()
+    document.querySelector('#cards').innerHTML = ''
 
     const inicioPokemon = new Date().getTime()
     
@@ -50,7 +53,6 @@ document.querySelector('#btn2').addEventListener('click', (e) => {
         fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
         .then(res => res.json())
         .then(resJSON => {
-            console.log('resJSON', resJSON.name)
             insertaCards(resJSON)
         })
         .catch(err => console.log(err))
@@ -65,3 +67,29 @@ document.querySelector('#btn2').addEventListener('click', (e) => {
 })
 
 // Exercici 2.3 Promise.All
+document.querySelector('#btn3').addEventListener('click', async (e) => {
+    e.preventDefault()
+    document.querySelector('#cards').innerHTML = ''
+
+    const inicioPokemon = new Date().getTime()
+
+    const arrayPokemons = []
+    for (let i = 0; i < 12; i++) {
+
+        arrayPokemons[i] = fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`).then(res => res.json())
+
+    }
+    
+    const response = await Promise.all(arrayPokemons)
+
+    for (let i = 0; i < 12; i++) {
+
+        insertaCards(response[i])
+
+    }
+
+    const finalPokemon = new Date().getTime()
+    const duracionPokemon = finalPokemon - inicioPokemon
+
+    document.querySelector('#tiempo3').innerHTML = `TIEMPO: ${duracionPokemon} milisegundos`
+})
